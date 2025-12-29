@@ -27,7 +27,7 @@ android {
         buildConfigField(
             type = "String",
             name = "API_BASE_URL",
-            value = project.findProperty("API_BASE_URL") as String
+            value = "\"${project.findProperty("API_BASE_URL")}\""
         )
     }
 
