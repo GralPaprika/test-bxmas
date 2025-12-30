@@ -6,4 +6,7 @@
     <string name="home_screen_title">Photos</string>
     <string name="photo_detail_error_screen_title">Something went wrong</string>
     <string name="photo_detail_error_screen_subtitle">Please try again later</string>
+    <string name="btn_retry">Retry</string>
+    <string name="home_screen_loading_photos_error_title">Something went wrong</string>
+    <string name="home_screen_loading_photos_error_subtitle">Please try again later</string>
 </resources>

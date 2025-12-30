@@ -1,5 +1,6 @@
 package space.carlosrdgz.test.vepormas.ui.screens.photos
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -45,25 +46,23 @@ class PhotosViewModel @Inject constructor(
 
     private suspend fun loadPhotos() {
         _uiState.value = PhotosUiState.Loading
-        try {
-            getPhotosUseCase(
-                limit = PaginationConstants.PHOTO_PAGE_SIZE,
-                start = PaginationConstants.PAGINATION_START_INDEX
-            ).collect { photos ->
-                currentPage = PaginationConstants.PAGINATION_START_INDEX
-                allPhotos = photos.toMutableList()
-                _uiState.value = PhotosUiState.Success(
-                    photos = allPhotos,
-                    hasMorePages = photos.size >= PaginationConstants.PHOTO_PAGE_SIZE
-                )
-            }
-        } catch (e: Exception) {
-            val errorMessage = e.message ?: "Unknown error occurred"
-            _uiState.value = PhotosUiState.Error(
-                message = errorMessage,
-                canRetry = true
-            )
-            _uiEffect.emit(PhotosUiEffect.ShowError(errorMessage))
+        getPhotosUseCase(
+            limit = PaginationConstants.PHOTO_PAGE_SIZE,
+            start = PaginationConstants.PAGINATION_START_INDEX
+        ).collect { result ->
+            result
+                .onSuccess { photos ->
+                    currentPage = PaginationConstants.PAGINATION_START_INDEX
+                    allPhotos = photos.toMutableList()
+                    _uiState.value = PhotosUiState.Success(
+                        photos = allPhotos,
+                        hasMorePages = photos.size >= PaginationConstants.PHOTO_PAGE_SIZE
+                    )
+                }
+                .onFailure { error ->
+                    Log.e("PhotosList", "Error loading photos", error)
+                    _uiState.value = PhotosUiState.Error(canRetry = true)
+                }
         }
     }
 
@@ -74,31 +73,33 @@ class PhotosViewModel @Inject constructor(
         if (currentState !is PhotosUiState.Success || !currentState.hasMorePages) return
 
         isLoadingMore = true
-        _uiState.value = currentState.copy(isLoadingMore = true)
+        _uiState.value = currentState.copy(isLoadingMore = true, loadMoreError = false)
 
-        try {
-            currentPage += PaginationConstants.PHOTO_PAGE_SIZE
-            getPhotosUseCase(
-                limit = PaginationConstants.PHOTO_PAGE_SIZE,
-                start = currentPage
-            ).collect { newPhotos ->
-                allPhotos.addAll(newPhotos)
-                _uiState.value = PhotosUiState.Success(
-                    photos = allPhotos,
-                    hasMorePages = newPhotos.size >= PaginationConstants.PHOTO_PAGE_SIZE,
+        currentPage += PaginationConstants.PHOTO_PAGE_SIZE
+        getPhotosUseCase(
+            limit = PaginationConstants.PHOTO_PAGE_SIZE,
+            start = currentPage
+        ).collect { result ->
+            result
+                .onSuccess { newPhotos ->
+                    allPhotos.addAll(newPhotos)
+                    _uiState.value = PhotosUiState.Success(
+                        photos = allPhotos,
+                        hasMorePages = newPhotos.size >= PaginationConstants.PHOTO_PAGE_SIZE,
+                        isLoadingMore = false,
+                        loadMoreError = false,
+                    )
                     isLoadingMore = false
-                )
-                isLoadingMore = false
-            }
-        } catch (e: Exception) {
-            currentPage -= PaginationConstants.PHOTO_PAGE_SIZE
-            isLoadingMore = false
-            val errorMessage = e.message ?: "Failed to load more photos"
-            _uiState.value = currentState.copy(
-                isLoadingMore = false,
-                loadMoreError = errorMessage
-            )
-            _uiEffect.emit(PhotosUiEffect.ShowError(errorMessage))
+                }
+                .onFailure { error ->
+                    Log.e("PhotosList", "Error loading more photos", error)
+                    currentPage -= PaginationConstants.PHOTO_PAGE_SIZE
+                    isLoadingMore = false
+                    _uiState.value = currentState.copy(
+                        isLoadingMore = false,
+                        loadMoreError = true,
+                    )
+                }
         }
     }
 
@@ -115,8 +116,7 @@ class PhotosViewModel @Inject constructor(
             _uiState.value = currentState.copy(photos = updatedPhotos)
             _uiEffect.emit(PhotosUiEffect.DeleteSuccess)
         } catch (e: Exception) {
-            val errorMessage = "Failed to delete photo"
-            _uiEffect.emit(PhotosUiEffect.ShowError(errorMessage))
+            Log.e("PhotosList", "Error deleting photo", e)
         }
     }
 }
@@ -127,12 +127,9 @@ sealed class PhotosUiState {
         val photos: List<Photo> = emptyList(),
         val hasMorePages: Boolean = false,
         val isLoadingMore: Boolean = false,
-        val loadMoreError: String? = null
+        val loadMoreError: Boolean = false
     ) : PhotosUiState()
-    data class Error(
-        val message: String,
-        val canRetry: Boolean = true
-    ) : PhotosUiState()
+    data class Error(val canRetry: Boolean = true) : PhotosUiState()
 }
 
 sealed class PhotosIntent {
@@ -143,7 +140,6 @@ sealed class PhotosIntent {
 }
 
 sealed class PhotosUiEffect {
-    data class ShowError(val message: String) : PhotosUiEffect()
     data object DeleteSuccess : PhotosUiEffect()
 }
 

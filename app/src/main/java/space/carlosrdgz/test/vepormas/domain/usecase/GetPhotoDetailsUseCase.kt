@@ -6,6 +6,5 @@ import javax.inject.Inject
 class GetPhotoDetailsUseCase @Inject constructor(
     private val photoRepository: PhotoRepository
 ) {
-    operator fun invoke() =
-        photoRepository.getPhotoText()
+    operator fun invoke() = photoRepository.getPhotoText()
 }

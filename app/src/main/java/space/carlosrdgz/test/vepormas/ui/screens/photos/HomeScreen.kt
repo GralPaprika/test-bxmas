@@ -29,6 +29,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import space.carlosrdgz.test.vepormas.R
 import space.carlosrdgz.test.vepormas.domain.model.Photo
@@ -47,9 +48,6 @@ fun HomeScreen(
     LaunchedEffect(Unit) {
         viewModel.uiEffect.collect { effect ->
             when (effect) {
-                is PhotosUiEffect.ShowError -> {
-                    // Handle error effect if needed
-                }
                 is PhotosUiEffect.DeleteSuccess -> {
                     Toast.makeText(context,
                         context.getString(R.string.toast_deleted_text), Toast.LENGTH_SHORT).show()
@@ -102,8 +100,7 @@ fun HomeScreen(
 
                 is PhotosUiState.Error -> {
                     val state = uiState as PhotosUiState.Error
-                    ErrorScreen(
-                        message = state.message,
+                    HomeErrorScreen(
                         canRetry = state.canRetry,
                         onRetry = {
                             viewModel.handleIntent(PhotosIntent.RetryLoadPhotos)
@@ -120,7 +117,7 @@ private fun PhotosList(
     photos: List<Photo>,
     isLoadingMore: Boolean,
     hasMorePages: Boolean,
-    loadMoreError: String?,
+    loadMoreError: Boolean,
     onLoadMore: () -> Unit,
     onPhotoClick: (Photo) -> Unit = {},
     onDeletePhoto: (Int) -> Unit = {},
@@ -136,7 +133,7 @@ private fun PhotosList(
                     lastVisibleIndex >= photos.size - 3 &&
                     hasMorePages &&
                     !isLoadingMore &&
-                    loadMoreError == null) {
+                    !loadMoreError) {
                     onLoadMore()
                 }
             }
@@ -179,7 +176,7 @@ private fun PhotosList(
             }
         }
 
-        if (loadMoreError != null) {
+        if (loadMoreError) {
             item {
                 Box(
                     modifier = Modifier
@@ -192,51 +189,22 @@ private fun PhotosList(
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text(
-                            text = loadMoreError,
+                            text = stringResource(R.string.home_screen_loading_photos_error_title),
                             color = MaterialTheme.colorScheme.error,
-                            style = MaterialTheme.typography.bodySmall
+                            fontSize = 12.sp
+                        )
+                        Text(
+                            text = stringResource(R.string.home_screen_loading_photos_error_subtitle),
+                            color = MaterialTheme.colorScheme.error,
+                            fontSize = 10.sp
                         )
                         Button(
                             onClick = onLoadMore,
                             modifier = Modifier.padding(top = 8.dp)
                         ) {
-                            Text("Retry")
+                            Text(stringResource(R.string.btn_retry))
                         }
                     }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun ErrorScreen(
-    message: String,
-    canRetry: Boolean,
-    onRetry: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Text(
-                text = "Error: $message",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.error
-            )
-            if (canRetry) {
-                Button(
-                    onClick = onRetry,
-                    modifier = Modifier.padding(top = 16.dp)
-                ) {
-                    Text("Retry")
                 }
             }
         }
@@ -258,7 +226,7 @@ fun HomeScreenPreview() {
                 ),
                 isLoadingMore = false,
                 hasMorePages = true,
-                loadMoreError = null,
+                loadMoreError = true,
                 onLoadMore = {},
                 modifier = Modifier.padding(innerPadding)
             )

@@ -12,9 +12,13 @@ class PhotoRepositoryImpl(
     private val photoApiService: PhotoApiService,
     private val loremApiService: LoremApiService,
 ) : PhotoRepository {
-    override fun getPhotos(limit: Int, start: Int): Flow<List<Photo>> = flow {
-        val photos = photoApiService.getPhotos(limit, start).toPhotoList()
-        emit(photos)
+    override fun getPhotos(limit: Int, start: Int): Flow<Result<List<Photo>>> = flow {
+        try {
+            val photos = photoApiService.getPhotos(limit, start).toPhotoList()
+            emit(Result.success(photos))
+        } catch (e: Exception) {
+            emit(Result.failure(e))
+        }
     }
 
     override fun getPhotoText(): Flow<Result<String>> = flow {

@@ -12,6 +12,6 @@ class GetPhotosUseCase @Inject constructor(
     operator fun invoke(
         limit: Int = PaginationConstants.PHOTO_PAGE_SIZE,
         start: Int = PaginationConstants.PAGINATION_START_INDEX,
-    ): Flow<List<Photo>> = photoRepository.getPhotos(limit, start)
+    ): Flow<Result<List<Photo>>> = photoRepository.getPhotos(limit, start)
 }
 
