@@ -1,7 +1,5 @@
 package space.carlosrdgz.test.vepormas.ui.screens.photodetail
 
-import space.carlosrdgz.test.vepormas.ui.screens.photodetail.PhotoDetailedInfo
-
 sealed class PhotoDetailUiState {
     data object Loading : PhotoDetailUiState()
     data class Success(val photo: PhotoDetailedInfo) : PhotoDetailUiState()
