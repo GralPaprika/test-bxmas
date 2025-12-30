@@ -14,4 +14,3 @@ class GetPhotosUseCase @Inject constructor(
         start: Int = PaginationConstants.PAGINATION_START_INDEX,
     ): Flow<Result<List<Photo>>> = photoRepository.getPhotos(limit, start)
 }
-

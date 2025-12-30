@@ -142,4 +142,3 @@ fun PhotoDetailSkeletonLoadingPreview() {
         PhotoDetailSkeletonLoading()
     }
 }
-

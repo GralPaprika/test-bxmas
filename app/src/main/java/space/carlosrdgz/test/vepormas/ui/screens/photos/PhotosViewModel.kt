@@ -120,26 +120,3 @@ class PhotosViewModel @Inject constructor(
         }
     }
 }
-
-sealed class PhotosUiState {
-    data object Loading : PhotosUiState()
-    data class Success(
-        val photos: List<Photo> = emptyList(),
-        val hasMorePages: Boolean = false,
-        val isLoadingMore: Boolean = false,
-        val loadMoreError: Boolean = false
-    ) : PhotosUiState()
-    data class Error(val canRetry: Boolean = true) : PhotosUiState()
-}
-
-sealed class PhotosIntent {
-    data object LoadPhotos : PhotosIntent()
-    data object LoadMorePhotos : PhotosIntent()
-    data object RetryLoadPhotos : PhotosIntent()
-    data class DeletePhoto(val photoId: Int) : PhotosIntent()
-}
-
-sealed class PhotosUiEffect {
-    data object DeleteSuccess : PhotosUiEffect()
-}
-

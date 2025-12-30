@@ -13,5 +13,3 @@ sealed class NavigationRoutes() {
         val photoUrl: String
     ) : NavigationRoutes()
 }
-
-

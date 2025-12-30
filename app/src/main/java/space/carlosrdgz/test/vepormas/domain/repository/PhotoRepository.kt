@@ -11,4 +11,3 @@ interface PhotoRepository {
 
     fun getPhotoText(): Flow<Result<String>>
 }
-

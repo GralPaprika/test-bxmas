@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import space.carlosrdgz.test.vepormas.domain.usecase.GetPhotoDetailsUseCase
+import space.carlosrdgz.test.vepormas.ui.screens.photodetail.components.PhotoDetailedInfo
 import javax.inject.Inject
 
 @HiltViewModel
@@ -60,26 +61,3 @@ class PhotoDetailViewModel @Inject constructor(
         }
     }
 }
-
-sealed class PhotoDetailUiState {
-    data object Loading : PhotoDetailUiState()
-    data class Success(val photo: PhotoDetailedInfo) : PhotoDetailUiState()
-    data object Error : PhotoDetailUiState()
-}
-
-sealed class PhotoDetailIntent {
-    data class LoadPhotoDetail(val savedStateHandle: SavedStateHandle) : PhotoDetailIntent()
-    data object GoBack : PhotoDetailIntent()
-}
-
-sealed class PhotoDetailUiEffect {
-    data object NavigateBack : PhotoDetailUiEffect()
-}
-
-data class PhotoDetailedInfo(
-    val id: Int,
-    val url: String,
-    val title: String,
-    val description: String,
-)
-

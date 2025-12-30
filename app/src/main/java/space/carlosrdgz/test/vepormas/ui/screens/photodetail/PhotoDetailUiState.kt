@@ -1,0 +1,9 @@
+package space.carlosrdgz.test.vepormas.ui.screens.photodetail
+
+import space.carlosrdgz.test.vepormas.ui.screens.photodetail.components.PhotoDetailedInfo
+
+sealed class PhotoDetailUiState {
+    data object Loading : PhotoDetailUiState()
+    data class Success(val photo: PhotoDetailedInfo) : PhotoDetailUiState()
+    data object Error : PhotoDetailUiState()
+}
