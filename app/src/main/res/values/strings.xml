@@ -4,4 +4,6 @@
     <string name="delete_confirmation_dialog_message">Are you sure you want to delete this photo? This action cannot be undone.</string>
     <string name="toast_deleted_text">Photo deleted successfully</string>
     <string name="home_screen_title">Photos</string>
+    <string name="photo_detail_error_screen_title">Something went wrong</string>
+    <string name="photo_detail_error_screen_subtitle">Please try again later</string>
 </resources>

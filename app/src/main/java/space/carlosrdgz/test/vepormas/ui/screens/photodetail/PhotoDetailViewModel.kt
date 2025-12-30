@@ -1,5 +1,6 @@
 package space.carlosrdgz.test.vepormas.ui.screens.photodetail
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -38,7 +39,7 @@ class PhotoDetailViewModel @Inject constructor(
     }
 
     private suspend fun loadPhotoDetail(savedStateHandle: SavedStateHandle) {
-        val photoId = savedStateHandle.get<Int>("photoId") ?: throw Exception("Photo ID not found")
+        val photoId = savedStateHandle.get<Int>("photoId") ?: -1
         val photoTitle = savedStateHandle.get<String>("photoTitle") ?: "Unknown"
         val photoUrl = savedStateHandle.get<String>("photoUrl") ?: ""
 
@@ -53,9 +54,8 @@ class PhotoDetailViewModel @Inject constructor(
 
                 _uiState.value = PhotoDetailUiState.Success(photo)
             }.onFailure {
-                val errorMessage = it.message ?: "Unknown error occurred"
-                _uiState.value = PhotoDetailUiState.Error(errorMessage)
-                _uiEffect.emit(PhotoDetailUiEffect.ShowError(errorMessage))
+                Log.e("PhotoDetails", it.message ?: "Unknown error occurred", it)
+                _uiState.value = PhotoDetailUiState.Error
             }
         }
     }
@@ -64,7 +64,7 @@ class PhotoDetailViewModel @Inject constructor(
 sealed class PhotoDetailUiState {
     data object Loading : PhotoDetailUiState()
     data class Success(val photo: PhotoDetailedInfo) : PhotoDetailUiState()
-    data class Error(val message: String) : PhotoDetailUiState()
+    data object Error : PhotoDetailUiState()
 }
 
 sealed class PhotoDetailIntent {
@@ -74,7 +74,6 @@ sealed class PhotoDetailIntent {
 
 sealed class PhotoDetailUiEffect {
     data object NavigateBack : PhotoDetailUiEffect()
-    data class ShowError(val message: String) : PhotoDetailUiEffect()
 }
 
 data class PhotoDetailedInfo(

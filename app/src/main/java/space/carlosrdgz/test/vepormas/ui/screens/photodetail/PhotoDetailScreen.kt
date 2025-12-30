@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import space.carlosrdgz.test.vepormas.domain.model.Photo
 import space.carlosrdgz.test.vepormas.ui.theme.TestBXTheme
 
 @Composable
@@ -43,9 +42,6 @@ fun PhotoDetailScreen(
         viewModel.uiEffect.collect { effect ->
             when (effect) {
                 is PhotoDetailUiEffect.NavigateBack -> onNavigateBack()
-                is PhotoDetailUiEffect.ShowError -> {
-                    // Handle error effect if needed
-                }
             }
         }
     }
@@ -69,17 +65,7 @@ fun PhotoDetailScreen(
             }
 
             is PhotoDetailUiState.Error -> {
-                val errorMessage = (uiState as PhotoDetailUiState.Error).message
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "Error: $errorMessage",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.error
-                    )
-                }
+                PhotoDetailErrorScreen()
             }
         }
     }
@@ -144,10 +130,23 @@ private fun PhotoDetailContent(
             )
 
             Text(
-                text = photo.description,
+                text = "Photo ID: ${photo.id}",
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.padding(bottom = 16.dp)
+                color = MaterialTheme.colorScheme.onSecondary,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+
+            Text(
+                text = "URL",
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSecondary,
+                modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)
+            )
+
+            Text(
+                text = photo.url,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
     }
