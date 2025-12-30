@@ -26,8 +26,14 @@ android {
 
         buildConfigField(
             type = "String",
-            name = "API_BASE_URL",
-            value = "\"${project.findProperty("API_BASE_URL")}\""
+            name = "PHOTOS_API_BASE_URL",
+            value = "\"${project.findProperty("PHOTOS_API_BASE_URL")}\""
+        )
+
+        buildConfigField(
+            type = "String",
+            name = "LOREM_API_BASE_URL",
+            value = "\"${project.findProperty("LOREM_API_BASE_URL")}\""
         )
     }
 
@@ -66,11 +72,13 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.material.icons)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
     testImplementation(libs.junit)
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
+    implementation(libs.retrofit.scalar)
     implementation(libs.gson)
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging.interceptor)

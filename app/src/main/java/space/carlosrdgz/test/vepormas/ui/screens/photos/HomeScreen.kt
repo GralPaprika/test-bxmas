@@ -31,7 +31,8 @@ import space.carlosrdgz.test.vepormas.ui.theme.TestBXTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    viewModel: PhotosViewModel = hiltViewModel()
+    viewModel: PhotosViewModel = hiltViewModel(),
+    onPhotoClick: (Photo) -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -79,6 +80,7 @@ fun HomeScreen(
                         onLoadMore = {
                             viewModel.handleIntent(PhotosIntent.LoadMorePhotos)
                         },
+                        onPhotoClick = onPhotoClick,
                         modifier = Modifier.fillMaxSize()
                     )
                 }
@@ -105,6 +107,7 @@ private fun PhotosList(
     hasMorePages: Boolean,
     loadMoreError: String?,
     onLoadMore: () -> Unit,
+    onPhotoClick: (Photo) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val lazyListState = rememberLazyListState()
@@ -132,7 +135,7 @@ private fun PhotosList(
         ) { photo ->
             PhotoItem(
                 photo = photo,
-                onPhotoClick = {}
+                onPhotoClick = onPhotoClick
             )
         }
 

@@ -8,5 +8,7 @@ interface PhotoRepository {
         limit: Int,
         start: Int,
     ): Flow<List<Photo>>
+
+    fun getPhotoText(): Flow<Result<String>>
 }
 
