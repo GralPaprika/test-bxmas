@@ -7,7 +7,7 @@ object PhotoMapper {
     fun PhotoDto.toPhotoList(): Photo = Photo(
         id = id,
         title = title,
-        url = url,
+        url = "https://picsum.photos/300/200",
     )
 
     fun List<PhotoDto>.toPhotoList(): List<Photo> = map { it.toPhotoList() }

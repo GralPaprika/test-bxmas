@@ -4,6 +4,9 @@ import kotlinx.coroutines.flow.Flow
 import space.carlosrdgz.test.vepormas.domain.model.Photo
 
 interface PhotoRepository {
-    fun getPhotos(): Flow<List<Photo>>
+    fun getPhotos(
+        limit: Int,
+        start: Int,
+    ): Flow<List<Photo>>
 }
 
