@@ -38,6 +38,7 @@ class PhotosViewModel @Inject constructor(
                 is PhotosIntent.LoadPhotos -> loadPhotos()
                 is PhotosIntent.LoadMorePhotos -> loadMorePhotos()
                 is PhotosIntent.RetryLoadPhotos -> retryLoadPhotos()
+                is PhotosIntent.DeletePhoto -> deletePhoto(intent.photoId)
             }
         }
     }
@@ -104,6 +105,20 @@ class PhotosViewModel @Inject constructor(
     private suspend fun retryLoadPhotos() {
         loadPhotos()
     }
+
+    private suspend fun deletePhoto(photoId: Int) {
+        val currentState = _uiState.value
+        if (currentState !is PhotosUiState.Success) return
+
+        try {
+            val updatedPhotos = currentState.photos.filter { it.id != photoId }
+            _uiState.value = currentState.copy(photos = updatedPhotos)
+            _uiEffect.emit(PhotosUiEffect.DeleteSuccess)
+        } catch (e: Exception) {
+            val errorMessage = "Failed to delete photo"
+            _uiEffect.emit(PhotosUiEffect.ShowError(errorMessage))
+        }
+    }
 }
 
 sealed class PhotosUiState {
@@ -124,9 +139,11 @@ sealed class PhotosIntent {
     data object LoadPhotos : PhotosIntent()
     data object LoadMorePhotos : PhotosIntent()
     data object RetryLoadPhotos : PhotosIntent()
+    data class DeletePhoto(val photoId: Int) : PhotosIntent()
 }
 
 sealed class PhotosUiEffect {
     data class ShowError(val message: String) : PhotosUiEffect()
+    data object DeleteSuccess : PhotosUiEffect()
 }
 

@@ -1,7 +1,7 @@
 package space.carlosrdgz.test.vepormas.ui.screens.photos
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,7 +30,8 @@ import space.carlosrdgz.test.vepormas.ui.theme.TestBXTheme
 fun PhotoItem(
     modifier: Modifier = Modifier,
     photo: Photo,
-    onPhotoClick: (Photo) -> Unit = {}
+    onPhotoClick: (Photo) -> Unit = {},
+    onLongPress: (Photo) -> Unit = {}
 ) {
     Column(
         modifier = modifier.fillMaxWidth()
@@ -39,7 +40,10 @@ fun PhotoItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.surface)
-                .clickable { onPhotoClick(photo) }
+                .combinedClickable(
+                    onClick = { onPhotoClick(photo) },
+                    onLongClick = { onLongPress(photo) }
+                )
                 .padding(16.dp)
         ) {
             Row(
