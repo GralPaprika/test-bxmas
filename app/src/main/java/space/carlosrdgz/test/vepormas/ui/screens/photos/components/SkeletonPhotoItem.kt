@@ -1,9 +1,10 @@
-package space.carlosrdgz.test.vepormas.ui.screens.photos
+package space.carlosrdgz.test.vepormas.ui.screens.photos.components
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,7 +29,7 @@ fun SkeletonPhotoItem(modifier: Modifier = Modifier) {
         initialValue = 0.2f,
         targetValue = 0.8f,
         animationSpec = infiniteRepeatable(
-            animation = androidx.compose.animation.core.tween(1000, easing = LinearEasing)
+            animation = tween(1000, easing = LinearEasing)
         ),
         label = "skeletonAlpha"
     )

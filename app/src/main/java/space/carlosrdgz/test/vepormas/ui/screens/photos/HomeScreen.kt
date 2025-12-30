@@ -33,7 +33,9 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import space.carlosrdgz.test.vepormas.R
 import space.carlosrdgz.test.vepormas.domain.model.Photo
-import space.carlosrdgz.test.vepormas.ui.common.DeleteConfirmationDialog
+import space.carlosrdgz.test.vepormas.ui.common.components.DeleteConfirmationDialog
+import space.carlosrdgz.test.vepormas.ui.screens.photos.components.PhotoItem
+import space.carlosrdgz.test.vepormas.ui.screens.photos.components.SkeletonPhotoItem
 import space.carlosrdgz.test.vepormas.ui.theme.TestBXTheme
 
 @OptIn(ExperimentalMaterial3Api::class)

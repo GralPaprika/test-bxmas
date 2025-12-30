@@ -1,9 +1,10 @@
-package space.carlosrdgz.test.vepormas.ui.screens.photodetail
+package space.carlosrdgz.test.vepormas.ui.screens.photodetail.components
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -31,7 +33,7 @@ fun PhotoDetailSkeletonLoading(modifier: Modifier = Modifier) {
         initialValue = 0.2f,
         targetValue = 0.8f,
         animationSpec = infiniteRepeatable(
-            animation = androidx.compose.animation.core.tween(1000, easing = LinearEasing)
+            animation = tween(1000, easing = LinearEasing)
         ),
         label = "skeletonAlpha"
     )
@@ -53,7 +55,7 @@ fun PhotoDetailSkeletonLoading(modifier: Modifier = Modifier) {
                 onClick = { },
                 modifier = Modifier.align(Alignment.TopStart)
             ) {
-                androidx.compose.material3.Icon(
+                Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Back",
                     tint = MaterialTheme.colorScheme.primary

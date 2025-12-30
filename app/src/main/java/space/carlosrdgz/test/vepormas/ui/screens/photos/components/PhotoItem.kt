@@ -1,4 +1,4 @@
-package space.carlosrdgz.test.vepormas.ui.screens.photos
+package space.carlosrdgz.test.vepormas.ui.screens.photos.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable

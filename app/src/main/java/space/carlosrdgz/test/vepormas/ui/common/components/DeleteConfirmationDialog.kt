@@ -1,4 +1,4 @@
-package space.carlosrdgz.test.vepormas.ui.common
+package space.carlosrdgz.test.vepormas.ui.common.components
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button

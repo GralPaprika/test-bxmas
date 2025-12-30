@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import space.carlosrdgz.test.vepormas.ui.screens.photodetail.components.PhotoDetailSkeletonLoading
 import space.carlosrdgz.test.vepormas.ui.theme.TestBXTheme
 
 @Composable
@@ -130,23 +131,10 @@ private fun PhotoDetailContent(
             )
 
             Text(
-                text = "Photo ID: ${photo.id}",
+                text = photo.description,
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSecondary,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-
-            Text(
-                text = "URL",
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSecondary,
-                modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)
-            )
-
-            Text(
-                text = photo.url,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(bottom = 16.dp)
             )
         }
     }
