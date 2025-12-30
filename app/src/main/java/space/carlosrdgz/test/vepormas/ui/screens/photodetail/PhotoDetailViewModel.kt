@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import space.carlosrdgz.test.vepormas.domain.usecase.GetPhotoDetailsUseCase
-import space.carlosrdgz.test.vepormas.ui.screens.photodetail.components.PhotoDetailedInfo
+import space.carlosrdgz.test.vepormas.ui.screens.photodetail.PhotoDetailedInfo
 import javax.inject.Inject
 
 @HiltViewModel

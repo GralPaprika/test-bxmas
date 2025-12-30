@@ -1,4 +1,4 @@
-package space.carlosrdgz.test.vepormas.ui.screens.photodetail.components
+package space.carlosrdgz.test.vepormas.ui.screens.photodetail
 
 data class PhotoDetailedInfo(
     val id: Int,
