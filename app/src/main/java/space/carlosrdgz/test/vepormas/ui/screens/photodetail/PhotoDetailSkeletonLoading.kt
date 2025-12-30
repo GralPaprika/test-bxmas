@@ -62,7 +62,6 @@ fun PhotoDetailSkeletonLoading(modifier: Modifier = Modifier) {
             }
         }
 
-        // Image skeleton
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -81,52 +80,56 @@ fun PhotoDetailSkeletonLoading(modifier: Modifier = Modifier) {
         ) {
             Box(
                 modifier = Modifier
-                    .fillMaxWidth(0.4f)
-                    .height(12.dp)
+                    .fillMaxWidth()
+                    .height(28.dp)
                     .background(
                         color = skeletonColor,
                         shape = RoundedCornerShape(4.dp)
                     )
-                    .padding(bottom = 8.dp)
+                    .padding(bottom = 6.dp)
             )
-            repeat(2) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(18.dp)
-                        .background(
-                            color = skeletonColor,
-                            shape = RoundedCornerShape(4.dp)
-                        )
-                        .padding(bottom = 6.dp)
-                )
-            }
 
-            Box(modifier = Modifier.height(12.dp))
+            Box(Modifier.padding(1.dp))
 
             Box(
                 modifier = Modifier
-                    .fillMaxWidth(0.2f)
-                    .height(12.dp)
+                    .height(28.dp)
+                    .fillMaxWidth(0.6f)
                     .background(
                         color = skeletonColor,
                         shape = RoundedCornerShape(4.dp)
                     )
-                    .padding(bottom = 8.dp)
+                    .padding(bottom = 6.dp)
             )
+
+
+            Box(modifier = Modifier.height(12.dp))
 
             repeat(3) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(14.dp)
+                        .height(16.dp)
                         .background(
                             color = skeletonColor,
                             shape = RoundedCornerShape(4.dp)
                         )
-                        .padding(bottom = 6.dp)
+                        .padding(bottom = 8.dp)
                 )
+
+                Box(Modifier.padding(1.dp))
             }
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth(0.4f)
+                    .height(16f.dp)
+                    .background(
+                        color = skeletonColor,
+                        shape = RoundedCornerShape(4.dp)
+                    )
+                    .padding(bottom = 8.dp)
+            )
         }
     }
 }
